@@ -8699,11 +8699,11 @@ in
   rust_1_38_0 = callPackage ../development/compilers/rust/1_38_0.nix {
     inherit (darwin.apple_sdk.frameworks) CoreFoundation Security;
   };
-  rust = rust_1_40_0;
+  rust = if stdenv.hostPlatform.parsed.cpu.name == "armv7l" then rust_1_38_0 else rust_1_40_0;
 
   rustPackages_1_40_0 = rust_1_40_0.packages.stable;
   rustPackages_1_38_0 = rust_1_38_0.packages.stable;
-  rustPackages = rustPackages_1_40_0;
+  rustPackages = if stdenv.hostPlatform.parsed.cpu.name == "armv7l" then rustPackages_1_38_0 else rustPackages_1_40_0;
 
   inherit (rustPackages) cargo clippy rustc rustPlatform;
   inherit (rust) makeRustPlatform;
