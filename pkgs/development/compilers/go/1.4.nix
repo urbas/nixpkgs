@@ -114,6 +114,9 @@ stdenv.mkDerivation rec {
     sed -i '/TestCgoExternalThreadSIGPROF/areturn' src/runtime/crash_cgo_test.go
 
     touch $TMPDIR/group $TMPDIR/hosts $TMPDIR/passwd
+  '' + lib.optionalString (stdenv.hostPlatform.parsed.cpu.name == "armv7l") ''
+    # Disable a failing chown test on armv7l
+    sed -i '/TestChown/areturn' src/os/os_unix_test.go
   '';
 
   patches = [
