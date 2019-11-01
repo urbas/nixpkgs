@@ -1,4 +1,4 @@
-{ stdenv, buildPackages, fetchurl, fetchpatch, pkgconfig, libuuid, gettext, texinfo, shared ? true }:
+{ stdenv, buildPackages, fetchurl, fetchpatch, pkgconfig, libuuid, gettext, texinfo, lib, shared ? true }:
 
 stdenv.mkDerivation rec {
   pname = "e2fsprogs";
@@ -29,7 +29,7 @@ stdenv.mkDerivation rec {
   postPatch = ''
     # Remove six failing tests
     # https://github.com/NixOS/nixpkgs/issues/65471
-    for test in m_image_mmp m_mmp m_mmp_bad_csum m_mmp_bad_magic t_mmp_1on t_mmp_2off; do
+    for test in m_image_mmp m_mmp m_mmp_bad_csum m_mmp_bad_magic t_mmp_1on t_mmp_2off${lib.optionalString (stdenv.hostPlatform.parsed.cpu.name == "armv7l") " m_hugefile"}; do
         rm -r "tests/$test"
     done
   '';
