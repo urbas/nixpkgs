@@ -21,10 +21,10 @@ stdenv.mkDerivation rec {
 
   outputs = [ "out" "lib" "dev" ];
 
-  preConfigure = lib.optionalString (stdenv.buildPlatform.isx86_64 || stdenv.hostPlatform.isi686 || stdenv.hostPlatform.isArm) ''
+  preConfigure = lib.optionalString (stdenv.buildPlatform.isx86_64 || stdenv.hostPlatform.isi686 || stdenv.hostPlatform.isAarch32) ''
     # `AS' is set to the binutils assembler, but we need nasm
     unset AS
-  '' + lib.optionalString (stdenv.hostPlatform.isAarch64 || stdenv.hostPlatform.isAarch32) ''
+  '' + lib.optionalString (stdenv.hostPlatform.isAarch64) ''
     export AS=$CC
   '';
 

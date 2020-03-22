@@ -31,7 +31,7 @@ stdenv.mkDerivation rec {
 
   enableParallelBuilding = true;
 
-  doCheck = !(stdenv.isDarwin || stdenv.hostPlatform.parsed.cpu.name == "armv7l");
+  doCheck = !(stdenv.isDarwin || stdenv.hostPlatform.isAarch32);
 
   installFlags = [ "exampledir=\${out}/etc/pkcs11" ];
 

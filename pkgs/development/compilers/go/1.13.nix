@@ -127,11 +127,6 @@ stdenv.mkDerivation rec {
     sed -i 's/TestLookup/testLookup/g' src/os/user/user_test.go
 
     touch $TMPDIR/group $TMPDIR/hosts $TMPDIR/passwd
-  '' + optionalString (stdenv.hostPlatform.parsed.cpu.name == "armv7l") ''
-    # Disable failing tests on armv7l
-    rm src/os/os_unix_test.go
-    rm src/os/pipe_test.go
-    rm src/os/rawconn_test.go
   '';
 
   patches = [

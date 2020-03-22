@@ -1,4 +1,4 @@
-{ lib, buildGoModule, fetchFromGitHub, writeText, runtimeShell, ncurses }:
+{ lib, buildGoModule, fetchFromGitHub, writeText, runtimeShell, ncurses, stdenv }:
 
 buildGoModule rec {
   pname = "fzf";
@@ -29,7 +29,7 @@ buildGoModule rec {
     fi
   '';
 
-  doCheck = true;
+  doCheck = !stdenv.hostPlatform.isAarch32;
 
   preInstall = ''
     mkdir -p $out/share/fish/{vendor_functions.d,vendor_conf.d}
