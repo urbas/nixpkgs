@@ -1,14 +1,15 @@
-{ lib, stdenv
-, buildPythonPackage
-, fetchPypi
-, fetchpatch
-, setuptools
+{ buildPythonPackage
 , capstone
+, fetchpatch
+, fetchPypi
+, lib
+, setuptools
+, stdenv
 }:
 
 buildPythonPackage rec {
   pname = "capstone";
-  version = stdenv.lib.getVersion capstone;
+  version = lib.getVersion capstone;
 
   src = capstone.src;
   sourceRoot = "${capstone.name}/bindings/python";
@@ -16,6 +17,8 @@ buildPythonPackage rec {
   postPatch = ''
     ln -s ${capstone}/lib/libcapstone${stdenv.targetPlatform.extensions.sharedLibrary} prebuilt/
     ln -s ${capstone}/lib/libcapstone.a prebuilt/
+  '' + lib.optionalString stdenv.targetPlatform.isAarch64 ''
+    sed -i 's/manylinux1/manylinux2014/' setup.py
   '';
 
   propagatedBuildInputs = [ setuptools ];
