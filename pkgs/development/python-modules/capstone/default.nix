@@ -18,7 +18,7 @@ buildPythonPackage rec {
     ln -s ${capstone}/lib/libcapstone${stdenv.targetPlatform.extensions.sharedLibrary} prebuilt/
     ln -s ${capstone}/lib/libcapstone.a prebuilt/
   '' + lib.optionalString stdenv.targetPlatform.isAarch64 ''
-    sed -i 's/manylinux1/manylinux2014/' setup.py
+    substituteInPlace setup.py --replace manylinux1 manylinux2014
   '';
 
   propagatedBuildInputs = [ setuptools ];
