@@ -2,13 +2,13 @@
 
 stdenv.mkDerivation {
   pname = "rpiboot";
-  version = "unstable-2020-10-20";
+  version = "unstable-2021-01-18";
 
   src = fetchFromGitHub {
     owner = "raspberrypi";
     repo = "usbboot";
-    rev = "d3760e119385a179765f43a50a8e051a44127c25";
-    sha256 = "0vygzh2h27xplqp1x4isj6kgrgmvmvc1mr3ghmsi98kzp91w772r";
+    rev = "49a2a4f22eec755b8c0377b20a5ecbfee089643e";
+    sha256 = "0db0slq0m56kkr363wdpzrncsw5w34jaxz8c2c9wdr8xa6m05a93";
   };
 
   nativeBuildInputs = [ libusb1 ];
