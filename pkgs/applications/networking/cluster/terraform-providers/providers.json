@@ -860,10 +860,10 @@
     "owner": "scottwinkler",
     "provider-source-address": "registry.terraform.io/scottwinkler/shell",
     "repo": "terraform-provider-shell",
-    "rev": "v1.6.0",
-    "sha256": "0jxb30vw93ibnwz8nfqapac7p9r2famzvsf2h4nfbmhkm6mpan4l",
+    "rev": "v1.7.7",
+    "sha256": "1dhriimgagarh6jaf7cizhsaf7aw9c7k8ch5h17khq3f0r1lzj47",
     "vendorSha256": "1p2ja6cw3dl7mx41svri6frjpgb9pxsrl7sq0rk1d3sviw0f88sg",
-    "version": "1.6.0"
+    "version": "1.7.7"
   },
   "signalfx": {
     "owner": "terraform-providers",
