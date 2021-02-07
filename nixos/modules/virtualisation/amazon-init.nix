@@ -1,6 +1,10 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
+
+with lib;
 
 let
+  cfg = config.virtualisation.amazon-init;
+
   script = ''
     #!${pkgs.runtimeShell} -eu
 
@@ -41,20 +45,45 @@ let
     nixos-rebuild switch
   '';
 in {
-  systemd.services.amazon-init = {
-    inherit script;
-    description = "Reconfigure the system from EC2 userdata on startup";
 
-    wantedBy = [ "multi-user.target" ];
-    after = [ "multi-user.target" ];
-    requires = [ "network-online.target" ];
+  options.virtualisation.amazon-init = {
+    enable = mkOption {
+      default = true;
+      type = types.bool;
+      description = ''
+        Enable or disable the amazon-init service.
+      '';
+    };
 
-    restartIfChanged = false;
-    unitConfig.X-StopOnRemoval = false;
+    script = mkOption {
+      default = script;
+      type = types.str;
+      description = ''
+        This script will execute whenever the EC2 instance starts. The user
+        data for this EC2 instance will be available at
+        `/etc/ec2-metadata/user-data`. See
+        https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html
+        for more information.
+      '';
+    };
+  };
 
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
+  config = mkIf cfg.enable {
+    systemd.services.amazon-init = {
+      inherit (cfg) script;
+      description = "Reconfigure the system from EC2 userdata on startup";
+
+      wantedBy = [ "multi-user.target" ];
+      after = [ "multi-user.target" ];
+      requires = [ "network-online.target" ];
+
+      restartIfChanged = false;
+      unitConfig.X-StopOnRemoval = false;
+
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+      };
     };
   };
 }
