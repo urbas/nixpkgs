@@ -66,10 +66,10 @@ in
 
       # Required for early KMS
       # "sun4i-drm"
-      "sun8i-mixer" # Audio, but required for kms
+      # "sun8i-mixer" # Audio, but required for kms
 
       # PWM for the backlight
-      "pwm-sun4i"
+      # "pwm-sun4i"
 
       # Broadcom
 
