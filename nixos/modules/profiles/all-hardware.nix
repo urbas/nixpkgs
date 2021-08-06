@@ -65,7 +65,7 @@ in
       # Allwinner support
 
       # Required for early KMS
-      "sun4i-drm"
+      # "sun4i-drm"
       "sun8i-mixer" # Audio, but required for kms
 
       # PWM for the backlight
