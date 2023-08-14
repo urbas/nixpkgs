@@ -5053,6 +5053,26 @@ with pkgs;
   inherit (ocaml-ng.ocamlPackages_4_10) dune_1;
   inherit (ocamlPackages) dune_2 dune_3 dune-release;
 
+  nixbuildnet-stress-a = callPackage ../misc/nixbuildnet-stress-a/default.nix { };
+  nixbuildnet-stress-big-1 = callPackage ../misc/nixbuildnet-stress-a/default.nix {
+    version = "1.0.0";
+
+    # Peak HDD usage 200 GiB
+    outFilesSizeMiB = 2500;
+    numberOfTmpFiles = 80;
+    # Out pkg size ~12GiB
+    numberOfOutFiles = 5;
+
+    # Build lasts for 25 minutes at load 32 CPU
+    stressDurationSeconds = 25 * 60;
+    cpuLoad = 32;
+
+    # Max memory usage ~180 GiB
+    memLoadBytes = 180 * 1024 * 1024 * 1024;
+  };
+
+  nixbuildnet-artificial-load = nixbuildnet-stress-big-1;
+
   duperemove = callPackage ../tools/filesystems/duperemove { };
 
   dvc = with python3.pkgs; toPythonApplication dvc;
